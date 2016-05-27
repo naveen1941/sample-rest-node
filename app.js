@@ -5,7 +5,7 @@
  * Documentation
  * Username length validation
  * Password length validation
- * 
+ * Validations for all requests..
  * 
  */
 
@@ -45,7 +45,7 @@ app.use(function(req, res, next) {
       if (err) {
         return res.json({ error: true, message: 'Failed to authenticate token.' });    
       } else {
-        req.body.decoded = decoded;    
+        req.user = decoded._doc; 
         next();
       }
     });

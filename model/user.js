@@ -17,11 +17,19 @@ var SALT_WORK_FACTOR = 10;
  */
 var userSchema = mongoose.Schema({
     username : {type:String,required:true, unique:true},
-    password : {type:String},
+    password : {type:String, maxlength:8},
     is_admin : {type:Boolean},
     created_at : {type : Number},
     updated_at :{type : Number}
 });
+
+userSchema.path('username').validate(function(username) {
+  return  username.length >= 4;
+}, 'username must be >= 4');
+
+userSchema.path('password').validate(function(password) {
+  return  password.length >= 8;
+}, 'password must be >= 8');
 
 /**
  * Save encoded password
@@ -44,10 +52,10 @@ userSchema.pre('save',function (next){
 userSchema.methods.comparePassword = function (password1, callback){
     bcrypt.compare(password1, this.password,function(err, isMatch) {
         if (err) return callback(err, false);
-        return callback(null, true);
+        else if(!isMatch) return callback(err, false);
+        else return callback(null, true);
     });
 };
-
 
 userSchema.statics.addUser = function addUser(request, callback){
   var promise = User.findOne({username: request.username}).exec();
@@ -85,8 +93,8 @@ userSchema.statics.authentication = function(request,callback){
   .then( function(user) {
     if(user){
        user.comparePassword(request.password,function(err, isMatch) {
-           if (err) {throw new Error("No user found.");}
-           else if(!isMatch) {throw new Error('Passwords dont match');}
+           if (err) {return callback(new Error("No user found."));}
+           else if(!isMatch) {return callback(new Error("Passwords dont match."));}
            else{
                var token = jwt.sign(user,config.secret , {
                     expiresIn: '24h'
@@ -101,10 +109,6 @@ userSchema.statics.authentication = function(request,callback){
     return callback(err, null);
   });
 };
-
-
-
-
 
 var User = mongoose.model('User',userSchema);
 module.exports = User;

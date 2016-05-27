@@ -16,10 +16,10 @@ router.post('/register',function(req, res, next) {
 router.post('/authenticate',function(req, res, next) {
   user.authentication(req.body, function(err, data){
     if(err){
-         res.status(400).json({'error':false,'message':err.message});
+         res.status(400).json({'error':true,'message':err.message});
        }
        else{
-           res.status(200).json({'error':true,'message':data});
+           res.status(200).json({'error':false,'message':data});
        }
   });
 });
