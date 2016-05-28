@@ -3,6 +3,8 @@
  * 
  * 
  * Documentation
+ * TRIMMING
+ * NULL EMPTY VALUES
  * 
  * 
  */

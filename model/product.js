@@ -17,6 +17,23 @@ var productSchema = mongoose.Schema({
     updatedat :{type:Number, required:true}
 });
 
+productSchema.path('name').validate(function(name) {
+  return  name.length >= 1;
+}, 'name must be >= 1');
+
+productSchema.path('description').validate(function(description) {
+  return  description.length >= 10;
+}, 'description must be >= 10');
+
+productSchema.path('price').validate(function(price) {
+  return  price >= 0;
+}, 'price must be >= 0');
+
+productSchema.path('tags').validate(function(tags) {
+  return  tags.length >= 1;
+}, 'tags must be >= 1');
+
+
 productSchema.index({name:'text'});
 productSchema.index({price:1,createdname:1});
 
