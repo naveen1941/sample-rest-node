@@ -16,11 +16,12 @@ var SALT_WORK_FACTOR = 10;
  * USER Schema
  */
 var userSchema = mongoose.Schema({
-    username : {type:String,required:true, index: { unique: true }},
-    password : {type:String, maxlength:8},
-    is_admin : {type:Boolean},
-    created_at : {type : Number},
-    updated_at :{type : Number}
+    username : {type:String,required:true, index: { unique: true }, trim: true},
+    password : {type:String, maxlength:8, trim: true},
+    isdeleted :{type:Boolean},
+    isadmin : {type:Boolean},
+    createdat : {type : Number},
+    updatedat :{type : Number}
 });
 
 userSchema.path('username').validate(function(username) {
@@ -68,9 +69,10 @@ userSchema.statics.addUser = function addUser(request, callback){
        var newUser = new User();
        newUser.username = request.username;
        newUser.password = request.password;
-       newUser.is_admin = false;
-       newUser.created_at = moment().unix();
-       newUser.updated_at = moment().unix();
+       newUser.isadmin = false;
+       newUser.isdeleted = false;
+       newUser.createdat = moment().unix();
+       newUser.updatedat = moment().unix();
        return newUser.save();
     }
     else { throw new Error("User creation failed.");}

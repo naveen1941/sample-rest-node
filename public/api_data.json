@@ -20,7 +20,7 @@
             "type": "String",
             "optional": false,
             "field": "description",
-            "description": "<p>description atleast 50 length</p>"
+            "description": "<p>description atleast 10 length</p>"
           },
           {
             "group": "Parameter",
@@ -384,6 +384,33 @@
     "title": "Search Products",
     "name": "SearchProducts",
     "group": "Product",
+    "examples": [
+      {
+        "title": "All Possible query",
+        "content": "['name','price','price_gt','price_gte','price_lt','price_lte',\n    'tags_all','tags_in','createdby','createdname','createdat',\n    'createdat_gt','createdat_gte','createdat_lt','createdat_lte',\n    'updatedat','updatedat_gt','updatedat_gte','updatedat_lt',\n    'updatedat_lte']",
+        "type": "js"
+      },
+      {
+        "title": "Example get all product proce greater than 100:",
+        "content": "/api/v1/product/search?price_gt=100",
+        "type": "js"
+      },
+      {
+        "title": "Example get all product proce greater than equal to 100 less than 50:",
+        "content": "/api/v1/product/search?price_gte=100&price_lt=50",
+        "type": "js"
+      },
+      {
+        "title": "Example get all product which is in category1, category2 and price less than 50:",
+        "content": "/api/v1/product/search?tag_all=[\"category1\",\"category2\"]&price_lt=50",
+        "type": "js"
+      },
+      {
+        "title": "Example get all product which is either in category1 or in category2 and price less than 50 with name Samsung:",
+        "content": "/api/v1/product/search?name=samsumg&tag_in=[\"category1\",\"category2\"]&price_lt=50",
+        "type": "js"
+      }
+    ],
     "success": {
       "examples": [
         {

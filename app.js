@@ -2,11 +2,6 @@
  * TODO
  * 
  * 
- * Documentation
- * TRIMMING
- * NULL EMPTY VALUES
- * 
- * 
  */
 
 require('./config/dbconfig.js');

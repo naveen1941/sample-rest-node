@@ -6,8 +6,8 @@ var moment = require('moment');
  * PRODUCT SCHEMA HERE
  */
 var productSchema = mongoose.Schema({
-    name : {type:String,required:true},    
-    description :{type:String, required:true},
+    name : {type:String,required:true, trim: true},    
+    description :{type:String, required:true, trim: true},
     price :{type:Number,required:true},
     tags :[],
     createdby:{type:  mongoose.Schema.Types.ObjectId, ref: 'User'},
@@ -35,7 +35,7 @@ productSchema.path('tags').validate(function(tags) {
 
 
 productSchema.index({name:'text'});
-productSchema.index({price:1,createdname:1});
+productSchema.index({price:1,createdname:1,updatedat:1});
 
 var editableKeys = ["name","description","price","tags"];
 
@@ -156,7 +156,6 @@ productSchema.statics.searchProducts = function(request, callback){
       else parsedQuery[key] = value;
     }
   });
-  console.log(parsedQuery);
   if(parseStatus){
     var promise = Product.find(parsedQuery).sort({name:-1}).exec();
     promise.then(function(products) {

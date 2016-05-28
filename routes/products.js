@@ -8,7 +8,7 @@ var Product = require('../model/product');
  * @apiGroup Product
  *
  * @apiParam {String} name product name atleast 1 length
- * @apiParam {String} description description atleast 50 length
+ * @apiParam {String} description description atleast 10 length
  * @apiParam {Number} price cost non negative
  * @apiParam {Array} category tags
  *
@@ -330,8 +330,24 @@ router.delete('/delete/:id', function(req, res,status) {
  * @api {get} /api/v1/product/search? Search Products
  * @apiName SearchProducts
  * @apiGroup Product
- *
- *
+ *  @apiExample {js} All Possible query
+ *   ['name','price','price_gt','price_gte','price_lt','price_lte',
+ *       'tags_all','tags_in','createdby','createdname','createdat',
+ *       'createdat_gt','createdat_gte','createdat_lt','createdat_lte',
+ *       'updatedat','updatedat_gt','updatedat_gte','updatedat_lt',
+ *       'updatedat_lte']
+ * @apiExample {js} Example get all product proce greater than 100:
+ *   /api/v1/product/search?price_gt=100
+ * @apiExample {js} Example get all product proce greater than equal to 100 less than 50:
+ *   /api/v1/product/search?price_gte=100&price_lt=50
+ * @apiExample {js} Example get all product which is in category1, category2 and price less than 50:
+ *   /api/v1/product/search?tag_all=["category1","category2"]&price_lt=50
+ * @apiExample {js} Example get all product which is either in category1 or in category2 and price less than 50 with name Samsung:
+ *   /api/v1/product/search?name=samsumg&tag_in=["category1","category2"]&price_lt=50
+ *     
+ * 
+ * 
+ * 
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK

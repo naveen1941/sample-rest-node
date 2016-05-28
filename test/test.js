@@ -6,7 +6,7 @@ var server = supertest.agent('http://localhost:3000');
 describe("ACCESS WITH NO TOKEN", function(){
     it("should return 401 code", function(done){
         server
-        .get("/")
+        .get("/api/v1/product/get")
         .expect("Content-type",/json/)
         .expect(401)
         .end(function(err, res){
@@ -20,7 +20,7 @@ describe("ACCESS WITH NO TOKEN", function(){
 describe("ACCESS WITH WRONG TOKEN", function(){
     it("should return 401 code", function(done){
         server
-        .get("/")        
+        .get("/api/v1/product/get")        
         .send({token : "badtokenbro"})
         .expect("Content-type",/json/)
         .expect(401)
