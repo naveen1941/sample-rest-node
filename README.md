@@ -9,3 +9,4 @@ To run the app:
 5. run "npm start"
 6. run "npm test" to run Unit tests
 6. launch "http://localhost:3000/" for API DOCS
+7. live 	http://cryptic-waters-14517.herokuapp.com/
