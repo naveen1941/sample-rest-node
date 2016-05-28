@@ -56,4 +56,16 @@ router.delete('/delete/:id', function(req, res,status) {
     });
 });
 
+
+router.get('/search', function(req, res,status) {
+     Product.searchProducts(req, function(err, success, status){
+       if(err){
+         res.status(status).json({'error':true,'message':err.message});
+       }
+       else{
+           res.status(status).json({'error':false,'message':success});
+       }
+    });
+});
+
 module.exports = router;

@@ -102,7 +102,8 @@ productSchema.statics.deleteProduct = function (request, callback){
 };
 
 productSchema.statics.searchProducts = function(request, callback){
-  
+  console.log(request.query);
+  callback(null,true,200);
 };
 
 var Product = mongoose.model('Product',productSchema);
