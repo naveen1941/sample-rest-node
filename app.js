@@ -1,9 +1,9 @@
 /**
  * TODO
- * Mocha test cases
- * Indexes on db's
+ * 
+ * 
  * Documentation
- * Validations for all requests..
+ * 
  * 
  */
 
@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
     var errorList = requestBodyValidation(req);
     if(!errorList) next();
-    else res.status(400).send({'error':true,'message': errorList});
+    else res.status(400).send({'error':true,'data': errorList});
 });
 
 app.use('/api/v1/user', users);
@@ -49,14 +49,14 @@ app.use(function(req, res, next) {
   if (token) {
     jwt.verify(token,config.secret , function(err, decoded) {      
       if (err) {
-        return res.status(401).send({ error: true, message: 'Failed to authenticate token.' });    
+        return res.status(401).send({ error: true, data: 'Failed to authenticate token.' });    
       } else {
         req.user = decoded._doc; 
         next();
       }
     });
   } 
-  else { return res.status(401).send({ error: true, message: 'No token provided.' });}
+  else { return res.status(401).send({ error: true, data: 'No token provided.' });}
 });
 
 app.use('/api/v1/product', products);

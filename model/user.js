@@ -16,7 +16,7 @@ var SALT_WORK_FACTOR = 10;
  * USER Schema
  */
 var userSchema = mongoose.Schema({
-    username : {type:String,required:true, unique:true},
+    username : {type:String,required:true, index: { unique: true }},
     password : {type:String, maxlength:8},
     is_admin : {type:Boolean},
     created_at : {type : Number},

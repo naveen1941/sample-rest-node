@@ -6,7 +6,6 @@
     "start": "node ./bin/www",
     "test": "mocha"
   },
-  
   "dependencies": {
     "bcrypt": "^0.8.6",
     "bluebird": "^3.4.0",
