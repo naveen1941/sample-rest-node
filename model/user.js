@@ -77,10 +77,10 @@ userSchema.statics.addUser = function addUser(request, callback){
   })
   .then(function(user) {
       if(!user){throw new Error("User creation failed.");}
-      else callback(null, user);
+      else callback(null, user, 200);
   })
   .catch(function(err){
-    return callback(err, null);
+    return callback(err, null, 400);
   });
 };
 
@@ -93,20 +93,20 @@ userSchema.statics.authentication = function(request,callback){
   .then( function(user) {
     if(user){
        user.comparePassword(request.password,function(err, isMatch) {
-           if (err) {return callback(new Error("No user found."));}
-           else if(!isMatch) {return callback(new Error("Passwords dont match."));}
+           if (err) {return callback(new Error("No user found."), null, 400);}
+           else if(!isMatch) {return callback(new Error("Passwords dont match."), null, 400);}
            else{
                var token = jwt.sign(user,config.secret , {
                     expiresIn: '24h'
                });
-               return callback(null, {username:user.username,token:token});
+               return callback(null, {username:user.username,token:token}, 200);
            }
        });
     }
     else { throw new Error("No user found.");}
   })
   .catch(function(err){
-    return callback(err, null);
+    return callback(err, null, 400);
   });
 };
 

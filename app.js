@@ -3,8 +3,6 @@
  * Mocha test cases
  * Indexes on db's
  * Documentation
- * Username length validation
- * Password length validation
  * Validations for all requests..
  * 
  */
@@ -14,6 +12,7 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var _=require('lodash');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
@@ -22,6 +21,7 @@ var config = require('./config/config');
 
 var products = require('./routes/products');
 var users = require('./routes/users');
+var requestBodyValidation = require('./helpers/validation');
 
 var app = express();
 
@@ -37,20 +37,26 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next) {
+    var errorList = requestBodyValidation(req);
+    if(!errorList) next();
+    else res.status(400).send({'error':true,'message': errorList});
+});
+
 app.use('/api/v1/user', users);
 app.use(function(req, res, next) {
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
   if (token) {
     jwt.verify(token,config.secret , function(err, decoded) {      
       if (err) {
-        return res.json({ error: true, message: 'Failed to authenticate token.' });    
+        return res.status(401).send({ error: true, message: 'Failed to authenticate token.' });    
       } else {
         req.user = decoded._doc; 
         next();
       }
     });
   } 
-  else { return res.status(403).send({ error: false, message: 'No token provided.' });}
+  else { return res.status(401).send({ error: true, message: 'No token provided.' });}
 });
 
 app.use('/api/v1/product', products);

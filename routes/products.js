@@ -4,40 +4,56 @@ var Product = require('../model/product');
 
 /* GET home page. */
 router.post('/add', function(req, res) {
-    Product.addProduct(req, function(err, product){
+    Product.addProduct(req, function(err, product, status){
        if(err){
-         res.status(400).json({'error':true,'message':err.message});
+         res.status(status).json({'error':true,'message':err.message});
        }
        else{
-           res.status(200).json({'error':true,'message':product});
+           res.status(status).json({'error':false,'message':product});
        }
     });
 });
 
 router.get('/get/:id', function(req, res) {
-    Product.getProduct(req, function(err, product){
+    if(req.params.id.length != 24){
+        res.status(400).json({'error':true,'message':'ID is not correct'});
+    }
+    Product.getProductByID(req, function(err, product, status){
        if(err){
-         res.status(400).json({'error':true,'message':err.message});
+         res.status(status).json({'error':true,'message':err.message});
        }
        else{
-           res.status(200).json({'error':true,'message':product});
+           res.status(status).json({'error':false,'message':product});
        }
     });
 });
 
-router.put('/edit', function(req, res) {
-     Product.editProduct(req, function(err, product){
+router.put('/edit/:id', function(req, res) {
+    if(req.params.id.length != 24){
+        res.status(400).json({'error':true,'message':'ID is not correct'});
+    }
+     Product.editProduct(req, function(err, product,status){
        if(err){
-         res.status(400).json({'error':true,'message':err.message});
+         res.status(status).json({'error':true,'message':err.message});
        }
        else{
-           res.status(200).json({'error':true,'message':product});
+           res.status(status).json({'error':false,'message':product});
        }
     });
 });
 
-router.delete('/delete/:id', function(req, res) {
-    
+router.delete('/delete/:id', function(req, res,status) {
+    if(req.params.id.length != 24){
+        res.status(400).json({'error':true,'message':'ID is not correct'});
+    }
+     Product.deleteProduct(req, function(err, success, status){
+       if(err){
+         res.status(status).json({'error':true,'message':err.message});
+       }
+       else{
+           res.status(status).json({'error':false,'message':success});
+       }
+    });
 });
 
 module.exports = router;
