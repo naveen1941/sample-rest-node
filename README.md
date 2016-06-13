@@ -1,4 +1,4 @@
-# wingify
+# sample-rest-node
 
 To run the app:
 
